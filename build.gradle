@@ -5,6 +5,7 @@ buildscript {
   }
   dependencies {
     classpath 'com.android.tools.build:gradle:3.3.2'
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
   }
 }
 
@@ -12,28 +13,8 @@ allprojects {
   repositories {
     google()
     jcenter()
-  }
-
-  apply plugin: 'checkstyle'
-
-  task checkstyle(type: Checkstyle) {
-    configFile file("${project.rootDir}/config/checkstyle.xml")
-    source 'src'
-    include '**/*.java'
-    exclude '**/gen/**'
-
-    classpath = files()
-  }
-
-  if (JavaVersion.current().isJava8Compatible()) {
-    allprojects {
-      tasks.withType(Javadoc) {
-        options.addStringOption('Xdoclint:none', '-quiet')
-      }
-    }
+    maven { url "https://jitpack.io" }
   }
 }
 
-task clean(type: Delete) {
-  delete rootProject.buildDir
-}
+
