@@ -65,7 +65,7 @@ public class SampleActivity extends Activity {
   }
 
   @OnClick(R.id.all_permissions_button) public void onAllPermissionsButtonClicked() {
-    Dexter.withActivity(this)
+    Dexter.withContext(getApplicationContext())
         .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_CONTACTS,
             Manifest.permission.RECORD_AUDIO)
         .withListener(allPermissionsListener)
@@ -74,20 +74,16 @@ public class SampleActivity extends Activity {
   }
 
   @OnClick(R.id.camera_permission_button) public void onCameraPermissionButtonClicked() {
-    new Thread(new Runnable() {
-      @Override public void run() {
-        Dexter.withActivity(SampleActivity.this)
-            .withPermission(Manifest.permission.CAMERA)
-            .withListener(cameraPermissionListener)
-            .withErrorListener(errorListener)
-            .onSameThread()
-            .check();
-      }
-    }).start();
+    new Thread(() -> Dexter.withContext(getApplicationContext())
+        .withPermission(Manifest.permission.CAMERA)
+        .withListener(cameraPermissionListener)
+        .withErrorListener(errorListener)
+        .onSameThread()
+        .check()).start();
   }
 
   @OnClick(R.id.contacts_permission_button) public void onContactsPermissionButtonClicked() {
-    Dexter.withActivity(this)
+    Dexter.withContext(getApplicationContext())
         .withPermission(Manifest.permission.READ_CONTACTS)
         .withListener(contactsPermissionListener)
         .withErrorListener(errorListener)
@@ -95,7 +91,7 @@ public class SampleActivity extends Activity {
   }
 
   @OnClick(R.id.audio_permission_button) public void onAudioPermissionButtonClicked() {
-    Dexter.withActivity(this)
+    Dexter.withContext(getApplicationContext())
         .withPermission(Manifest.permission.RECORD_AUDIO)
         .withListener(audioPermissionListener)
         .withErrorListener(errorListener)
